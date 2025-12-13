@@ -17,6 +17,8 @@ class ArreraIALoad:
         self.__tokeniser = None
         self.__classes = None
         self.__is_loaded = False
+        self.__system_context_is_loaded = False
+        self.__system_context = ""
 
     # Methode private
 
@@ -44,12 +46,12 @@ class ArreraIALoad:
         return predicted_tag, float(confidence)
 
     def __predict_gguf_model(self, prompt, max_tokens=512):
-        """
-        Génère une réponse. Utilise le format 'chat' compatible OpenAI.
-        """
-        messages = [
-            {"role": "user", "content": prompt}
-        ]
+        consigne_langue = "\n\n(Réponds impérativement en français, même si je parle anglais ou technique)."
+        if self.__system_context_is_loaded:
+            content = f"{self.__system_context}\n\nInstruction utilisateur : {prompt}{consigne_langue}"
+            messages = [{"role": "user", "content": content}]
+        else:
+            messages = [{"role": "user", "content": prompt + consigne_langue}]
 
         output = self.__model.create_chat_completion(
             messages=messages,
@@ -78,6 +80,25 @@ class ArreraIALoad:
             return True
         except Exception as e:
             raise ValueError(f"Erreur lors du chargement du chatbot : {e}")
+
+    def load_help_file(self, file_path: str):
+        if os.path.exists(file_path):
+            try :
+                with open(file_path, 'r', encoding='utf-8') as f:
+                    content = f.read()
+                    self.__system_context = f"Utilise les informations suivantes pour aider l'utilisateur :\n\n{content}"
+                    self.__system_context_is_loaded = True
+                return True
+            except :
+                self.__system_context_is_loaded = False
+                return False
+        else:
+            self.__system_context_is_loaded = False
+            return False
+
+    def unload_help(self):
+        self.__system_context_is_loaded = False
+        self.__system_context = ""
 
     def load_model_gguf(self, model_path:str, n_ctx:int=2048):
         try:

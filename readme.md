@@ -14,4 +14,6 @@ Cette classe agit comme un conteneur pour un modèle chargé en mémoire.
 
 - **send_request** : Permet d’envoyer des requêtes au modèle chargé. Prend les mêmes paramètres que les méthodes privées *predict* correspondant à chaque modèle.
 - **loadArreraModel2026** : Charge les modèles d’IA développés par Arrera en 2026.
+- **load_help_file** : Charge un fichier d'aide pour donner des instruction en plus a l'IA
+- **unload_help** : decharge le fichier d'aide
 - **load_model_gguf** : Charge les modèles d’IA téléchargés en local au format .gguf 
