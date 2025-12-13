@@ -17,3 +17,16 @@ Cette classe agit comme un conteneur pour un modèle chargé en mémoire.
 - **load_help_file** : Charge un fichier d'aide pour donner des instruction en plus a l'IA
 - **unload_help** : decharge le fichier d'aide
 - **load_model_gguf** : Charge les modèles d’IA téléchargés en local au format .gguf 
+
+## Exemple de fichier help 
+
+Voici un exemple d'un fichier help pour qui sois charger par la methode **load_help_file** et qui sera utiliser  
+
+```text
+tu es un assistant personnel intelligent. voici la liste des commandes que tu peux exécuter pour l'utilisateur :
+- "ouvre le navigateur" : Lance Google Chrome.
+- "meteo" : Donne la météo de la localisation actuelle.
+- "heure" : Donne l'heure actuelle.
+si l'utilisateur demande de l'aide, résume cette liste.
+```
+
